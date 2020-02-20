@@ -1,0 +1,27 @@
+<div class="col-md-6 col-md-offset-3 ventana">
+	<header>
+		Ingrese su nueva contraseña
+	</header>
+	<div class="mensaje-alerta" *ngIf="message">
+		{{message}}
+	</div>
+	<section>
+	
+	<form>		
+		<div class="form-group">
+			<label for="password">Password</label>
+			<input type="password" [(ngModel)]="contrasena" class="form-control" name="password" required>
+		</div>
+			<div class="form-group">
+			<label for="confirm-password">Confirmar Password</label>
+			<input type="password" [(ngModel)]="confirm_contrasena" class="form-control" name="confirm-password" required>
+		</div>
+		<div class="form-group">
+			<button class="btn btn-primary" (click)="cambiarContrasena()">Confirmar</button>
+			<a class="btn btn-link" [routerLink]="['/']">Iniciar sesión</a>	
+		</div>	
+	</form>
+
+	</section>
+
+</div>

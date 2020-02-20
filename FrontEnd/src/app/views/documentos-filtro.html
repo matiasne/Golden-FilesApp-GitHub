@@ -1,0 +1,147 @@
+<div [@fadeInOutAnimation]>
+<header id="header">
+	<nav class="navbar navbar-inverse bg-inverse ">
+	  <div class="container-fluid">
+	    <!-- Brand and toggle get grouped for better mobile display -->
+	    <div class="navbar-header">
+	      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2" aria-expanded="false">
+	        <span class="sr-only">Toggle navigation</span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	      </button>
+	      <a class="navbar-brand" href="#">
+	      	<span class='glyphicon glyphicon-user' aria-hidden='true'></span> {{actualUser.nombre}}
+	      </a>	 
+
+	    </div>
+	    <div id="barra-usuario"></div>   
+<!-- Collect the nav links, forms, and other content for toggling -->
+	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">		      	      
+	      <ul class="nav navbar-nav navbar-right">	
+	      		<li>
+		      		<a class="btn" data-toggle="collapse" data-target=".nav-collapse.in" (click)="logOut()">
+		      			<span class='glyphicon glyphicon-log-out' aria-hidden='true'></span> Logout
+		      		</a> 
+		      	</li>    
+		      	<li *ngIf="actualUser.admin">
+		      		<a class="btn" data-toggle="collapse" data-target=".nav-collapse.in" (click)="gotoAdmin()">
+		      			<span class='glyphicon glyphicon-wrench' aria-hidden='true'></span> Administracion
+		      		</a> 
+		      	</li>   
+		    </ul>
+	    </div><!-- /.navbar-collapse -->
+	  </div><!-- /.container-fluid -->
+	</nav>
+</header>
+<div class="mensaje-alerta" *ngIf="message">
+	{{message}}
+</div>
+<div class="col-lg-3 col-md-3 col-sm-3 ventana">
+	<section>
+	<h5>Filtro de documentos:</h5>
+	<form #formDocumentos="ngForm" id="form-producto">
+		<div class="form-group">
+			<!--select class="form-control" (change)="onChangeBuques($event.target.value)">
+				<option [value]="null">Seleccione un buque</option>
+				<option *ngFor="let buque of buques" [value]="buque.ID_BUQUE">{{buque.DS_BUQUE}}</option>
+			</select-->
+
+			<select #selectBuque class="form-control" [(ngModel)]="selected_buque_id" [ngModelOptions]="{standalone: true}" (change)="onChangeBuques()">  
+				<option [value]="null">Seleccione un buque</option>
+				<option *ngFor="let buque of buques" [value]="buque.ID_BUQUE">
+					{{buque.DS_BUQUE}}
+				</option>        
+			</select>
+		</div>
+		<div class="form-group">
+			<!--select class="form-control" (change)="onChangeViajes($event.target.value)">
+				<option [value]="null">Seleccione un viaje</option>
+				<option *ngFor="let viaje of viajes" [value]="viaje.no_viaje">{{viaje.no_viaje}}</option>
+			</select-->
+
+			<select #selectViajes class="form-control" [(ngModel)]="selected_viaje_nro" [ngModelOptions]="{standalone: true}" (change)="onChangeViajes()">  
+				<option [value]="null">Seleccione un viaje</option>
+				<option *ngFor="let viaje of viajes" [value]="viaje.no_viaje">
+					{{viaje.no_viaje}}
+				</option>        
+			</select>
+
+		</div>
+		<div class="form-group">
+			<!--select class="form-control" (change)="onChangeDestinos($event.target.value)">
+				<option [value]="null">Seleccione un destino</option>
+				<option *ngFor="let destino of destinos" [value]="destino.ID_DESTINO">{{destino.DS_DESTINO}}</option>
+			</select-->
+
+			<select #selectDestino class="form-control" [(ngModel)]="selected_destino_id" [ngModelOptions]="{standalone: true}" (change)="onChangeDestinos()">  
+				<option [value]="null">Seleccione un destino</option>
+				<option *ngFor="let destino of destinos" [value]="destino.ID_DESTINO">
+					{{destino.DS_DESTINO}}
+				</option>        
+			</select>
+		</div>
+		<div class="form-group">
+
+			<select #selectExportador class="form-control"  [(ngModel)]="selected_exportador_id" [ngModelOptions]="{standalone: true}" (change)="onChangeExportadores()">
+				<option [value]="null">Seleccione un exportador</option>
+				<option *ngFor="let exportador of exportadores" [value]="exportador.ID_ENTIDAD">{{exportador.DS_RAZON_SOCIAL}}</option>
+			</select>
+		</div>
+		<div class="form-group">
+			<select #selectContrato class="form-control"  [(ngModel)]="selected_contrato_id" [ngModelOptions]="{standalone: true}" (change)="onChangeContratos()">
+				<option [value]="null">Seleccione un contrato</option>
+				<option *ngFor="let contrato of contratos" [value]="contrato.ID_CONTRATO">{{contrato.ID_CONTRATO_TERCERO}}</option>
+			</select>
+		</div>
+		<div class="form-group">
+			<select #selectEmbarque class="form-control"  [(ngModel)]="selected_embarque_id" [ngModelOptions]="{standalone: true}"  (change)="onChangeEmbarques()">
+				<option [value]="null" selected>Seleccione un embarque</option>
+				<option *ngFor="let embarque of embarques" [value]="embarque.ID_EMBARQUE">{{embarque.NO_EMBARQUE_SIM}}</option>
+			</select>
+		</div>		
+		<div class="form-group">
+			<select #selectLote class="form-control"  [(ngModel)]="selected_lote_id" [ngModelOptions]="{standalone: true}" (change)="onChangeLotes()">
+				<option [value]="null">Seleccione un lote</option>
+				<option *ngFor="let lote of lotes" [value]="lote.Id_lote">{{lote.no_lote}}</option>
+			</select>	
+		</div>
+	</form>
+	</section>
+</div>
+
+
+
+<div class="col-lg-9 col-md-9 col-sm-9 contenedor-archivos">
+<section>
+	<button type="button" class="btn btn-primary" (click)="descargarTodos()">Descargar Todos</button>	
+	<h5>Listado de documentos:</h5>
+	<div *ngIf="documentos">
+		<ul>
+			<li *ngFor="let c_contrato of categoria_contrato_documentos">
+				Contrato: {{c_contrato}}
+				<ul>
+					<li *ngFor="let c_embarque of categoria_embarque_documentos">
+						Embarque: {{c_embarque}}
+						<ul>
+							<li *ngFor="let c_documento of categoria_tipo_documentos">
+								{{c_documento}}
+								<h5>{{categoria}}</h5>
+								<ul>
+									<div *ngFor="let documento of documentos"  >
+										<li *ngIf="(documento.ID_CONTRATO_TERCERO == c_contrato && documento.NO_EMBARQUE_SIM == c_embarque && documento.DC_TIPO_DOC == c_documento)">
+										<button type="button" class="btn btn-primary" (click)="descargarArchivo(documento.DS_RUTA)"><span class="glyphicon glyphicon-download-alt"></span></button><strong> {{documento.nombre}}</strong>
+										</li>
+									</div>
+								</ul>
+							</li>			
+						</ul>
+					</li>
+				</ul>
+			</li>
+		</ul>
+		
+	</div>
+	</section>
+</div>
+</div>
